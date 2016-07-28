@@ -6,6 +6,7 @@
     <title>Hack Blog</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
     <link rel="stylesheet" href ="{% static 'css/hack_blog.css' %}">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 </head>
 <body>
 <div id="masthead">
@@ -38,7 +39,34 @@
 {% endblock content %}
 </div>
 </body>
+<script type="text/javascript">
+    var data = { "title": "From Ajax", "content": "Content from Ajax", "image": null }
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    $('#ajaxPost').click(function(){
+        alert('posting now');
+     $.ajax({
+             type: "POST",
+             url: "http://localhost:8000/api/posts/",
+             data: JSON.stringify(data),
+             contentType: "application/json; charset=utf-8",
+             crossDomain: true,
+             headers: {
+                    "Authorization": "Basic YmVuQG1haWwuY29tOnBhc3N3b3Jk"
+                  },
+             dataType: "json",
+             success: function (data, status, jqXHR) {
+                 alert(JSON.stringify(data));
+             },
+
+             error: function (jqXHR, status) {
+                 // error handler
+                 console.log(jqXHR);
+                 alert('fail' + status.code);
+             }
+          });
+
+    });
+
+</script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha/js/bootstrap.min.js"></script>
 </html>
